@@ -13,7 +13,13 @@ int main(int argc, char **argv) {
 
   // Sqlite Initialization
   //--------------------------------------------------------------------------------------
-  char *sqlite_version = print_sqlite3_version();
+  db_data_s *db_data = db_init();
+  if (db_data->status == 1) {
+    fprintf(stderr, "Failed database initialization. Terminating program.\n");
+    return 1;
+  }
+
+  char *sqlite_version = db_print_sqlite3_version();
   //--------------------------------------------------------------------------------------
 
   // Raylib Initialization
@@ -54,6 +60,7 @@ int main(int argc, char **argv) {
 
   // Sqlite De-Initialization
   //--------------------------------------------------------------------------------------
+  db_free(db_data);
   free(sqlite_version);
   //--------------------------------------------------------------------------------------
 
