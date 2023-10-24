@@ -8,7 +8,7 @@ EXECUTABLE = patman
 
 CC = gcc
 CFLAGS= -g3 -O0 -Wall -Werror -Wextra -pedantic -std=c11
-LDLIBS = -lm -lpthread -ldl `pkg-config --libs raylib`
+LDLIBS = -lm -lpthread -ldl -lsqlite3 `pkg-config --libs raylib`
 COMPILE = $(CC) $(CFLAGS) $(LDLIBS)
 
 BUILD_DIR := ./bin
