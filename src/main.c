@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   // Sqlite Initialization
   //--------------------------------------------------------------------------------------
   db_data_s *db_data = db_init();
-  if (db_data->status == 1) {
+  if (db_data->status == false) {
     fprintf(stderr, "Failed database initialization. Terminating program.\n");
     return 1;
   }

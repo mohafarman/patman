@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <sqlite3.h>
 
 #define DATABASE_NAME "bin/test.db"
 
 typedef struct {
   char *name;
-  int status;
+  sqlite3 *db;
+  bool status;
 } db_data_s;
 
 // Initialization
@@ -20,6 +22,9 @@ db_data_s *db_init();
 
 //--------------------------------------------------------------------------------------
 char *db_print_sqlite3_version();
+
+int db_table_exists(sqlite3 *db, const char *table_name);
+int db_table_create(sqlite3 *db, const char *table_name);
 //--------------------------------------------------------------------------------------
 
 // De-Initialization
