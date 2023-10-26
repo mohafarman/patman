@@ -12,7 +12,7 @@
 typedef struct {
   char *name;
   sqlite3 *db;
-  bool status;
+  bool status;    /* Status of database. false if there is an error, true if all good */
 } db_data_s;
 
 // Initialization
