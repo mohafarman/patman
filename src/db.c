@@ -31,12 +31,9 @@ db_data_s *db_init() {
       db_data->status = true;
       return db_data;
     }
-
-    printf("Table %s does not exist!", table_credentials);
-    db_data->status = false;
-    return db_data;
   }
 
+  /* Table credentials exists */
   db_data->status = true;
   return db_data;
 }
@@ -102,7 +99,6 @@ int db_table_create(sqlite3 *db, const char *table_name) {
         return 1;
 
     } else {
-
         fprintf(stdout, "Table %s created successfully\n", table_name);
         return 0;
     }
