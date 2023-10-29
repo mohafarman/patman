@@ -9,6 +9,8 @@
 typedef struct {
   char *username;
   char *password;
+  int username_letter_count;
+  int password_letter_count;
   char *first_name;
   char *last_name;
 } user_data_s;
