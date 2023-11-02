@@ -1,11 +1,5 @@
 #include "../include/gui.h"
 
-// gui_state_s *gui_init() {
-//   gui_state_s gui_state = { LOGIN };
-//
-//   return &gui_state;
-// }
-
 gui_login_window_s *gui_login_window() {
   Rectangle username_box = { SCREEN_WIDTH/4.0f, SCREEN_HEIGHT/4.0f + 30, 225, 50 };
   bool mouse_on_username_box = false;
@@ -23,10 +17,8 @@ gui_login_window_s *gui_login_window() {
 }
 
 void gui_login_update(gui_login_window_s *gui_login, user_data_s *user_data) {
-  MouseButton mouse_button_left = MOUSE_BUTTON_LEFT;
 
-  if (IsMouseButtonPressed(mouse_button_left)) {
-    /* TODO: Change to mouse click */
+  if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
     if (CheckCollisionPointRec(GetMousePosition(), gui_login->username_box)) {
       gui_login->mouse_on_username_box = true;
       gui_login->mouse_on_password_box = false;
