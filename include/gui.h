@@ -3,6 +3,7 @@
 
 #include "../include/user.h"
 
+#include <stdlib.h>
 #include <raylib.h>
 
 #define SCREEN_WIDTH 1200
@@ -22,11 +23,11 @@ typedef struct {
   bool mouse_on_password_box;
 } gui_login_window_s;
 
-gui_login_window_s gui_login_window();
+gui_login_window_s *gui_login_window();
 
-void gui_login_update(gui_login_window_s gui_login, user_data_s *user_data);
+void gui_login_update(gui_login_window_s *gui_login, user_data_s *user_data);
 
-void gui_login_draw(gui_login_window_s gui_login, user_data_s *user_data);
+void gui_login_draw(gui_login_window_s *gui_login, user_data_s *user_data);
 
 // user_data_s *gui_login_update(gui_login_window_s gui_login, user_data_s *user_data);
 // char *gui_login_update(gui_login_window_s gui_login, user_data_s *user_data);

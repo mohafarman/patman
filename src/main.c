@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
 
   // Sqlite Initialization
   //--------------------------------------------------------------------------------------
-  db_data_s *db_data = db_init();
-  if (db_data->status == false) {
+  db_data_s *db= db_init();
+  if (db->status == false) {
     fprintf(stderr, "Failed database initialization. Terminating program.\n");
     return 1;
   }
@@ -36,11 +36,11 @@ int main(int argc, char **argv) {
   // Raylib/GUI Initialization
   //--------------------------------------------------------------------------------------
   GUI_STATE gui_state = STATE_LOGIN;
-  gui_login_window_s gui_login;
+  gui_login_window_s *gui_login = gui_login_window();
 
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Patman");
 
-  SetTargetFPS(10);               // Set our program to run at 10 frames-per-second
+  SetTargetFPS(20);               // Set our program to run at 10 frames-per-second
   //--------------------------------------------------------------------------------------
 
   // Main program loop
@@ -54,8 +54,27 @@ int main(int argc, char **argv) {
           gui_state = STATE_MAIN_MENU;
         }
 
-        gui_login = gui_login_window();
+        // gui_login = gui_login_window();
         gui_login_update(gui_login, user_data);
+
+        /* Sign in button / ENTER */
+        if (IsKeyPressed(KEY_ENTER)) {
+          /* Check credentials with sqlite3 */
+          printf("Enter pressed!\n");
+          if (db_table_query_sign_in(db->db, user_data->username, user_data->password) == 1) {
+            /* Failed to sign in */
+            program_state->signed_in = false;
+            break;
+          }
+
+          program_state->signed_in = true;
+          gui_state = STATE_LOGIN;
+          printf("Signed in!\n");
+        }
+        /* If signed in then set the program state */
+
+        /* If not signed in then clear the text boxes */
+
         break;
       case STATE_MAIN_MENU:
         break;
@@ -79,7 +98,6 @@ int main(int argc, char **argv) {
       case STATE_LOGIN:
         /* Draw login screen */
         gui_login_draw(gui_login, user_data);
-        /* Sign in button / ENTER */
 
         break;
       case STATE_MAIN_MENU:
@@ -106,7 +124,7 @@ int main(int argc, char **argv) {
 
   // Sqlite De-Initialization
   //--------------------------------------------------------------------------------------
-  db_free(db_data);
+  db_free(db);
   free(sqlite_version);
   //--------------------------------------------------------------------------------------
 

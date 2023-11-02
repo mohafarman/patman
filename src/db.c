@@ -88,21 +88,59 @@ int db_table_create(sqlite3 *db, const char *table_name) {
   char *err_msg = 0;
   int result;
 
-  snprintf(query, sizeof(query), "CREATE TABLE '%s'(Id INTEGER PRIMARY KEY, Username TEXT, Password TEXT);", table_name);
+  snprintf(query, sizeof(query), "CREATE TABLE IF NOT EXISTS'%s'(Id INTEGER PRIMARY KEY, Username TEXT, Password TEXT);", table_name);
 
   result = sqlite3_exec(db, query, 0, 0, &err_msg);
 
-    if (result != SQLITE_OK ) {
-        fprintf(stderr, "Failed to create table\n");
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return 1;
+  if (result != SQLITE_OK ) {
+    fprintf(stderr, "Failed to create table\n");
+    fprintf(stderr, "SQL error: %s\n", err_msg);
+    sqlite3_free(err_msg);
+    return 1;
 
-    } else {
-        fprintf(stdout, "Table %s created successfully\n", table_name);
-        return 0;
-    }
+  } else {
+    fprintf(stdout, "Table %s created successfully\n", table_name);
+    return 0;
+  }
 }
+
+int db_table_query_sign_in(sqlite3 *db, const char *username, const char *password) {
+  char query[100];
+  char *err_msg = 0;
+  sqlite3_stmt *stmt;
+  int result;
+
+  snprintf(query, sizeof(query), "SELECT Username, Password FROM credentials WHERE Username = '%s' AND Password = '%s';", username, password);
+
+  printf("The query: %s\n", query);
+
+  result = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
+  // result = sqlite3_exec(db, query, db_callback_generic, 0, &err_msg);
+  if (result == SQLITE_OK) {
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+      /* Credentials found */
+      // printf("%s\n", sqlite3_column_text(stmt, 0));
+      // printf("%s\n", sqlite3_column_text(stmt, 1));
+      return 0;
+    }
+
+    /* Credentials not correct, failed to sign in */
+    return 1;
+  }
+
+  fprintf(stderr, "Error preparing query: %s\n", sqlite3_errmsg(db));
+  sqlite3_free(err_msg);
+  return 1;
+}
+
+int db_callback_generic(void *NotUsed, int argc, char **argv, char **azColName) {
+  (void)NotUsed;
+  for (int i = 0; i < argc; i++) {
+    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+  }
+  return 0;
+}
+
 //--------------------------------------------------------------------------------------
 
 // De-Initialization

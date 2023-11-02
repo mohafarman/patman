@@ -23,8 +23,10 @@ db_data_s *db_init();
 //--------------------------------------------------------------------------------------
 char *db_print_sqlite3_version();
 
-int db_table_exists(sqlite3 *db, const char *table_name);
 int db_table_create(sqlite3 *db, const char *table_name);
+int db_table_exists(sqlite3 *db, const char *table_name);
+int db_table_query_sign_in(sqlite3 *db, const char *username, const char *password);
+int db_callback_generic(void *NotUsed, int argc, char **argv, char **azColName);
 //--------------------------------------------------------------------------------------
 
 // De-Initialization
