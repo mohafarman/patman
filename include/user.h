@@ -17,4 +17,6 @@ typedef struct {
 
 user_data_s *user_init();
 
+void *user_free(user_data_s *user_data);
+
 #endif // USER_H_

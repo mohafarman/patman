@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   // Raylib/GUI Initialization
   //--------------------------------------------------------------------------------------
   GUI_STATE gui_state = STATE_LOGIN;
-  gui_login_window_s *gui_login = gui_login_window();
+  gui_login_window_s *gui_login = gui_login_window_init();
 
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Patman");
 
@@ -120,14 +120,16 @@ int main(int argc, char **argv) {
   CloseWindow();        // Close window and OpenGL context
   //--------------------------------------------------------------------------------------
 
+  // Debugging
+  fprintf(stdout, "username: %s\npassword: %s\n", user_data->username, user_data->password);
+
   // Sqlite De-Initialization
   //--------------------------------------------------------------------------------------
   db_free(db);
   free(sqlite_version);
   //--------------------------------------------------------------------------------------
 
-  // Debugging
-  fprintf(stdout, "username: %s\npassword: %s\n", user_data->username, user_data->password);
+  user_free(user_data);
 
   return 0;
 }
