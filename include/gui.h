@@ -19,8 +19,11 @@ typedef enum {
 typedef struct {
   Rectangle username_box;
   Rectangle password_box;
+  Rectangle button_sign_in;
   bool mouse_on_username_box;
   bool mouse_on_password_box;
+  bool mouse_on_button_sign_in;
+  bool sign_in_failed;
 } gui_login_window_s;
 
 gui_login_window_s *gui_login_window();
@@ -28,9 +31,6 @@ gui_login_window_s *gui_login_window();
 void gui_login_update(gui_login_window_s *gui_login, user_data_s *user_data);
 
 void gui_login_draw(gui_login_window_s *gui_login, user_data_s *user_data);
-
-// user_data_s *gui_login_update(gui_login_window_s gui_login, user_data_s *user_data);
-// char *gui_login_update(gui_login_window_s gui_login, user_data_s *user_data);
 
 Rectangle gui_create_input_box(const char *name, float pos_x, float pos_y, float width, float height);
 

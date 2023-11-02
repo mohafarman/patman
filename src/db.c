@@ -112,8 +112,6 @@ int db_table_query_sign_in(sqlite3 *db, const char *username, const char *passwo
 
   snprintf(query, sizeof(query), "SELECT Username, Password FROM credentials WHERE Username = '%s' AND Password = '%s';", username, password);
 
-  printf("The query: %s\n", query);
-
   result = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
   // result = sqlite3_exec(db, query, db_callback_generic, 0, &err_msg);
   if (result == SQLITE_OK) {

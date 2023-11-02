@@ -54,16 +54,18 @@ int main(int argc, char **argv) {
           gui_state = STATE_MAIN_MENU;
         }
 
-        // gui_login = gui_login_window();
         gui_login_update(gui_login, user_data);
 
-        /* Sign in button / ENTER */
-        if (IsKeyPressed(KEY_ENTER)) {
+        /* Sign in button Or ENTER */
+        if (IsKeyPressed(KEY_ENTER) || gui_login->mouse_on_button_sign_in) {
+          gui_login->mouse_on_button_sign_in = false;
+          gui_login->sign_in_failed = false;
           /* Check credentials with sqlite3 */
-          printf("Enter pressed!\n");
           if (db_table_query_sign_in(db->db, user_data->username, user_data->password) == 1) {
             /* Failed to sign in */
             program_state->signed_in = false;
+            gui_login->sign_in_failed = true;
+            printf("Failed to sign in!\n");
             break;
           }
 
@@ -71,9 +73,6 @@ int main(int argc, char **argv) {
           gui_state = STATE_LOGIN;
           printf("Signed in!\n");
         }
-        /* If signed in then set the program state */
-
-        /* If not signed in then clear the text boxes */
 
         break;
       case STATE_MAIN_MENU:
@@ -98,7 +97,6 @@ int main(int argc, char **argv) {
       case STATE_LOGIN:
         /* Draw login screen */
         gui_login_draw(gui_login, user_data);
-
         break;
       case STATE_MAIN_MENU:
         /* Draw main menu screen */
