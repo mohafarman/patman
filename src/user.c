@@ -19,7 +19,7 @@ user_data_s *user_init() {
   return user_data;
 }
 
-void *user_free(user_data_s *user_data) {
+void user_free(user_data_s *user_data) {
   free(user_data->username);
   free(user_data->password);
   free(user_data->first_name);
