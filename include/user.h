@@ -9,10 +9,12 @@
 typedef struct {
   char *username;
   char *password;
-  int username_letter_count;
-  int password_letter_count;
   char *first_name;
   char *last_name;
+  int username_letter_count;
+  int password_letter_count;
+  int first_name_letter_count;
+  int last_name_letter_count;
 } user_data_s;
 
 user_data_s *user_init();

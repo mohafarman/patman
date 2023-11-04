@@ -42,6 +42,8 @@ int main(int argc, char **argv) {
   gui_login_window_s *gui_login = gui_login_window_init();
 
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Patman");
+  /* Load font */
+
   gui_hud_s gui_hud = gui_hud_init();
 
   SetTargetFPS(20);               // Set our program to run at 10 frames-per-second
@@ -70,9 +72,12 @@ int main(int argc, char **argv) {
             program_state->signed_in = false;
             gui_login->sign_in_failed = true;
 
-            /* Empty the input boxes */
-            user_data->username = NULL;
-            user_data->password = NULL;
+            /* Empty the input boxes and reset input */
+            user_data->username[0] = '\0';
+            user_data->password[0] = '\0';
+            user_data->username_letter_count = 0;
+            user_data->password_letter_count = 0;
+
             fprintf(stderr, "Failed to sign in!\n");
             break;
           }
@@ -121,7 +126,8 @@ int main(int argc, char **argv) {
       //----------------------------------------------------------------------------------
     }
 
-  UnloadTexture(gui_hud.texture_logo);
+  UnloadTexture(gui_hud.texture_logo_alive);
+  UnloadTexture(gui_hud.texture_logo_dead);
 
   // Raylib De-Initialization
   //--------------------------------------------------------------------------------------
@@ -129,7 +135,8 @@ int main(int argc, char **argv) {
   //--------------------------------------------------------------------------------------
 
   // Debugging
-  fprintf(stdout, "username: %s\npassword: %s\n", user_data->username, user_data->password);
+  fprintf(stdout, "username: %s\npassword: %s\nfirst name: %s\nlast name: %s\n",
+          user_data->username, user_data->password, user_data->first_name, user_data->last_name);
 
   // Sqlite De-Initialization
   //--------------------------------------------------------------------------------------
