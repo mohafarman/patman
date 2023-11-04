@@ -103,7 +103,6 @@ int main(int argc, char **argv) {
 
       /* Draw the HUD */
       gui_hud_draw(&gui_hud);
-      // DrawTexture(texture, 100 - texture.width, 100 - texture.width, WHITE);
 
       switch(gui_state) {
       case STATE_LOGIN:

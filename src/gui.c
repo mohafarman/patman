@@ -58,6 +58,10 @@ void gui_login_update(gui_login_window_s *gui_login, user_data_s *user_data) {
       gui_login->mouse_on_username_box = true;
       gui_login->mouse_on_password_box = false;
     }
+    else {
+      gui_login->mouse_on_username_box = true;
+      gui_login->mouse_on_password_box = false;
+    }
   }
 
   if (gui_login->mouse_on_username_box || gui_login->mouse_on_password_box) {
@@ -159,9 +163,9 @@ void gui_hud_draw(gui_hud_s *gui_hud) {
 
   DrawRectangleRec(gui_hud->bar_bottom, DARKBLUE);
 
-  DrawText("Patman is a patient management system using the Raylib library and sqlite3 as database.",
+  DrawText("Patman is a patient management system using the Raylib library for GUI and sqlite3 as database.",
            10, SCREEN_HEIGHT - 60, 12, LIGHTGRAY);
-  DrawText("Developed and maintain by Mohamad Farman.",
+  DrawText("Developed and maintained by Mohamad Farman.",
            10, SCREEN_HEIGHT - 48, 12, LIGHTGRAY);
   // DrawTextureRec(gui_hud->texture_logo, (Rectangle){0, 0, 100, 100}, (Vector2){10.0f, 10.0f}, WHITE);
 }
