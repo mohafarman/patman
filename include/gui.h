@@ -17,6 +17,12 @@ typedef enum {
 } GUI_STATE;
 
 typedef struct {
+  Texture2D texture_logo;
+  Rectangle bar_top;
+  Rectangle bar_bottom;
+} gui_hud_s;
+
+typedef struct {
   Rectangle username_box;
   Rectangle password_box;
   Rectangle button_sign_in;
@@ -26,11 +32,20 @@ typedef struct {
   bool sign_in_failed;
 } gui_login_window_s;
 
-gui_login_window_s *gui_login_window();
+// gui_hud_s *gui_hud_init();
+gui_hud_s gui_hud_init();
+
+void gui_hud_draw(gui_hud_s *gui_hud);
+
+void gui_hud_draw_info();
+
+gui_login_window_s *gui_login_window_init();
 
 void gui_login_update(gui_login_window_s *gui_login, user_data_s *user_data);
 
 void gui_login_draw(gui_login_window_s *gui_login, user_data_s *user_data);
+
+void gui_hud_free(gui_hud_s *gui_hud);
 
 Rectangle gui_create_input_box(const char *name, float pos_x, float pos_y, float width, float height);
 

@@ -7,7 +7,7 @@
 EXECUTABLE = patman
 
 CC = gcc
-CFLAGS= -g3 -O0 -Wall -Werror -Wextra -pedantic -std=c11
+CFLAGS= -g3 -O0 -Wall -Wextra -pedantic -std=c11 #-Werror
 LDLIBS = -lm -lpthread -ldl -lsqlite3 `pkg-config --libs raylib`
 COMPILE = $(CC) $(CFLAGS) $(LDLIBS)
 

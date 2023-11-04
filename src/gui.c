@@ -1,13 +1,13 @@
 #include "../include/gui.h"
 
-gui_login_window_s *gui_login_window() {
-  Rectangle username_box = { SCREEN_WIDTH/4.0f, SCREEN_HEIGHT/4.0f + 30, 225, 50 };
+gui_login_window_s *gui_login_window_init() {
+  Rectangle username_box = { SCREEN_WIDTH/8.0f, SCREEN_HEIGHT/4.0f + 30, 225, 50 };
   bool mouse_on_username_box = false;
 
-  Rectangle password_box = { SCREEN_WIDTH/4.0f, SCREEN_HEIGHT/4.0f + 120, 225, 50 };
+  Rectangle password_box = { SCREEN_WIDTH/8.0f, SCREEN_HEIGHT/4.0f + 120, 225, 50 };
   bool mouse_on_password_box = false;
 
-  Rectangle button_sign_in = { SCREEN_WIDTH/4.0f, SCREEN_HEIGHT/4.0f + 180, 100, 40 };
+  Rectangle button_sign_in = { SCREEN_WIDTH/8.0f, SCREEN_HEIGHT/4.0f + 180, 100, 40 };
   bool mouse_on_button_sign_in = false;
 
   bool sign_in_failed = false;
@@ -135,6 +135,44 @@ void gui_login_draw(gui_login_window_s *gui_login, user_data_s *user_data) {
     DrawText("Failed to sign in!", (int)gui_login->button_sign_in.x, (int)gui_login->button_sign_in.y + 50, FONT_SIZE, RED);
   }
 
+}
+
+gui_hud_s gui_hud_init() {
+  // gui_hud_s *gui_hud = (gui_hud_s*)malloc(sizeof(gui_hud_s));
+  gui_hud_s gui_hud = { 0 };
+
+  // gui_hud.texture_logo = (Texture2D*)malloc(sizeof(900 * 820));
+  gui_hud.texture_logo = LoadTexture("assets/caduceus_resize.png");
+
+  Rectangle bar_top = {0, 0, SCREEN_WIDTH, gui_hud.texture_logo.height};
+  gui_hud.bar_top = bar_top;
+
+  Rectangle bar_bottom = {0, SCREEN_HEIGHT - gui_hud.texture_logo.height/1.5, SCREEN_WIDTH, gui_hud.texture_logo.height};
+  gui_hud.bar_bottom = bar_bottom;
+
+  return gui_hud;
+}
+
+void gui_hud_draw(gui_hud_s *gui_hud) {
+  DrawRectangleRec(gui_hud->bar_top, BLUE);
+  DrawTexture(gui_hud->texture_logo, 0, 0, WHITE);
+
+  DrawRectangleRec(gui_hud->bar_bottom, DARKBLUE);
+
+  DrawText("Patman is a patient management system using the Raylib library and sqlite3 as database.",
+           10, SCREEN_HEIGHT - 60, 12, LIGHTGRAY);
+  DrawText("Developed and maintain by Mohamad Farman.",
+           10, SCREEN_HEIGHT - 48, 12, LIGHTGRAY);
+  // DrawTextureRec(gui_hud->texture_logo, (Rectangle){0, 0, 100, 100}, (Vector2){10.0f, 10.0f}, WHITE);
+}
+
+void gui_hud_draw_info() {
+  DrawText("Hello!!", 10, SCREEN_HEIGHT - 20, 20, LIGHTGRAY);
+}
+
+void gui_hud_free(gui_hud_s *gui_hud) {
+  /* Must free texture specifically as well */
+  free(gui_hud);
 }
 
 Rectangle gui_create_input_box(const char *name, float pos_x, float pos_y, float width, float height) {

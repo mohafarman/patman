@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <raylib.h>
 
+#define RAYGUI_IMPLEMENTATION
+#include "../include/raygui.h"
+
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -39,6 +42,7 @@ int main(int argc, char **argv) {
   gui_login_window_s *gui_login = gui_login_window_init();
 
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Patman");
+  gui_hud_s gui_hud = gui_hud_init();
 
   SetTargetFPS(20);               // Set our program to run at 10 frames-per-second
   //--------------------------------------------------------------------------------------
@@ -65,13 +69,17 @@ int main(int argc, char **argv) {
             /* Failed to sign in */
             program_state->signed_in = false;
             gui_login->sign_in_failed = true;
-            printf("Failed to sign in!\n");
+
+            /* Empty the input boxes */
+            user_data->username = NULL;
+            user_data->password = NULL;
+            fprintf(stderr, "Failed to sign in!\n");
             break;
           }
 
           program_state->signed_in = true;
           gui_state = STATE_LOGIN;
-          printf("Signed in!\n");
+          fprintf(stderr, "Signed in!\n");
         }
 
         break;
@@ -93,6 +101,10 @@ int main(int argc, char **argv) {
 
       ClearBackground(RAYWHITE);
 
+      /* Draw the HUD */
+      gui_hud_draw(&gui_hud);
+      // DrawTexture(texture, 100 - texture.width, 100 - texture.width, WHITE);
+
       switch(gui_state) {
       case STATE_LOGIN:
         /* Draw login screen */
@@ -106,14 +118,11 @@ int main(int argc, char **argv) {
         break;
       }
 
-      /* Information */
-      // DrawText(sqlite_version, 2, 2, 10, LIGHTGRAY);
-
-      // DrawText("Username", screenWidth/4, screenHeight/4, 20, GRAY);
-
       EndDrawing();
       //----------------------------------------------------------------------------------
     }
+
+  UnloadTexture(gui_hud.texture_logo);
 
   // Raylib De-Initialization
   //--------------------------------------------------------------------------------------
@@ -129,6 +138,7 @@ int main(int argc, char **argv) {
   free(sqlite_version);
   //--------------------------------------------------------------------------------------
 
+  // gui_hud_free(&gui_hud);
   user_free(user_data);
 
   return 0;
